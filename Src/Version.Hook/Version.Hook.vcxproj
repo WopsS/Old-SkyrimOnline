@@ -65,7 +65,7 @@
       <AdditionalUsingDirectories>$(SolutionDir)Bin\$(Configuration)</AdditionalUsingDirectories>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

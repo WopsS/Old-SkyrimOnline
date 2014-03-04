@@ -57,7 +57,6 @@ extern "C" __declspec(dllexport) void SetVariables(IDirect3DDevice9* pDevice,
 	TheInputListener = new UnmanagedInputListener;
 
 	TheIInputHook->SetListener(TheInputListener);
-
 	Skyrim::Overlay::TheSystem = new Skyrim::Overlay::System();
 
 	OnPresent->Add(std::bind(&Skyrim::Overlay::System::OnRender, Skyrim::Overlay::TheSystem, std::placeholders::_1));

@@ -2,8 +2,7 @@
 
 using Game.API.Networking.Messages;
 using Game.Overlay;
-using G = Game;
-
+using G = Game; 
 #endregion
 
 namespace Game.Client.Interface

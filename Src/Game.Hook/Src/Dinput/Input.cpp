@@ -2,7 +2,7 @@
 
 #include "Plugins.hpp"
 #include "Input.hpp"
-
+#include "WinAPI.hpp"
 #pragma unmanaged
 
 #define IMPL_DEFINE_GUID(name, l, w1, w2, b1, b2, b3, b4, b5, b6, b7, b8) \
@@ -64,10 +64,10 @@ private:
 	InputListener* mListener;
 };
 
-class myDirectInputDevice : public IDirectInputDevice8
+class myDirectInputDevice : public IDirectInputDevice8A
 {
 public:
-	myDirectInputDevice(IDirectInputDevice8 * device, bool keyboard)
+	myDirectInputDevice(IDirectInputDevice8A * device, bool keyboard)
 		:mRealDevice(device), mKeyboard(keyboard)
 	{
 		memset(mBuffer, 0, 256);
@@ -114,9 +114,11 @@ public:
 
 			for(auto i = 0 ; i < 256; ++i)
 			{
+				
 				if(buffer[i] != mBuffer[i])
 				{
 					mBuffer[i] = buffer[i];
+					
 					if(buffer[i] & 0x80)
 					{
 						if(InputHook::GetInstance()->GetListener())
@@ -129,7 +131,8 @@ public:
 					}
 				}
 			}
-						
+
+			
 			if(InputHook::GetInstance()->IsInputEnabled() == false)
 				memset(buffer, 0, 256);
 
@@ -145,6 +148,7 @@ public:
 				InputHook::GetInstance()->GetListener()->OnMouseMove(pos.x,pos.y,0);
 
 			HRESULT ret = mRealDevice->GetDeviceState(outDataLen, outData);
+
 			if(ret != DI_OK) 
 				return ret;
 
@@ -158,7 +162,7 @@ public:
 					if(state & 0x80)
 					{
 						if(InputHook::GetInstance()->GetListener())
-							InputHook::GetInstance()->GetListener()->OnMousePress(i);
+							InputHook::GetInstance()->GetListener()->OnMousePress(i);	
 					}
 					else
 					{
@@ -201,8 +205,7 @@ public:
 
 	HRESULT _stdcall SetDataFormat(const DIDATAFORMAT* a) { return mRealDevice->SetDataFormat(a); }
 	HRESULT _stdcall SetEventNotification(HANDLE a) { return mRealDevice->SetEventNotification(a); }
-	HRESULT _stdcall SetCooperativeLevel(HWND a,DWORD b){ return mRealDevice->SetCooperativeLevel(a,b); }
-
+	HRESULT _stdcall SetCooperativeLevel(HWND a,DWORD b) { return mRealDevice->SetCooperativeLevel(a, b); }
 	HRESULT _stdcall GetObjectInfo(LPDIDEVICEOBJECTINSTANCEA a,DWORD b,DWORD c) { return mRealDevice->GetObjectInfo(a,b,c); }
 	HRESULT _stdcall GetDeviceInfo(LPDIDEVICEINSTANCEA a) { return mRealDevice->GetDeviceInfo(a); }
 	HRESULT _stdcall RunControlPanel(HWND a,DWORD b) { return mRealDevice->RunControlPanel(a,b); }
@@ -224,7 +227,7 @@ public:
 
 
 private:
-	IDirectInputDevice8	* mRealDevice;
+	IDirectInputDevice8A	* mRealDevice;
 	bool					mKeyboard;
 	uint8_t				  mBuffer[256];
 };
@@ -232,7 +235,7 @@ private:
 class myDirectInput : public IDirectInput8A {
 public:
 
-	myDirectInput(IDirectInput8 * obj)
+	myDirectInput(IDirectInput8A * obj)
 		:mRealInput(obj)
 	{
 	}
@@ -266,7 +269,7 @@ public:
 		else
 		{
 			IDirectInputDevice8A	* dev;
-
+			
 			HRESULT hr = mRealInput->CreateDevice(typeGuid, &dev, unused);
 			if(hr != DI_OK) return hr;
 
@@ -285,7 +288,7 @@ public:
 	HRESULT _stdcall ConfigureDevices(LPDICONFIGUREDEVICESCALLBACK a,LPDICONFIGUREDEVICESPARAMSA b,DWORD c,void* d) { return mRealInput->ConfigureDevices(a,b,c,d); }
 
 private:
-	IDirectInput8	* mRealInput;
+	IDirectInput8A	* mRealInput;
 	ULONG			mReferences;
 };
 
@@ -293,10 +296,10 @@ static HRESULT _stdcall DirectInput8Create_c(HINSTANCE instance, DWORD version, 
 {
 	IDirectInput8A	* dinput;
 	HRESULT hr = DirectInput8Create_r(instance, version, iid, &dinput, outer);
+	
 	if(hr != DI_OK) return hr;
-
+	
 	*((IDirectInput8A**)out) = new myDirectInput(dinput);
-
 	return DI_OK;
 }
 

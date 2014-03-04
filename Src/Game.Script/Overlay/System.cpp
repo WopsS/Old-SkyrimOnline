@@ -131,6 +131,7 @@ namespace Skyrim
 						break;
 					}
 					MyGUI::InputManager::getInstance().injectKeyPress(code,c);
+					
 				}
 				else
 					MyGUI::InputManager::getInstance().injectKeyRelease(code);

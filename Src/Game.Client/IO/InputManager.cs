@@ -72,6 +72,7 @@ namespace Game.Client.IO
                 UIEnabled = !UIEnabled;
                 if (UIEnabled)
                     GlobalContext.Controller.DisableInput();
+                    
                 else
                     GlobalContext.Controller.EnableInput();
             }
