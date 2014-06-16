@@ -47,7 +47,7 @@ HANDLE WINAPI FakeCreateThread(
 	PDWORD lpThreadId
 	)
 {
-	if(*(uint32_t*)lpParameter == 0x010CDD60) // VMInitThread::vftable
+	if(*(uint32_t*)lpParameter == 0x010CDD60) // VMInitThread::vftable (this should be replaced with a signature scan)
 	{
 		SkyrimPluginInit(gl_hThisInstance);
 	}
