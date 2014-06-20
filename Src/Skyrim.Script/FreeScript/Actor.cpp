@@ -7,7 +7,7 @@ namespace FreeScript
 {
 	void QueueNiNodeUpdate(FreeScript::Actor* ptr)
 	{
-		((void(__thiscall*)(FreeScript::Actor*,bool))0x730ee0)(ptr,true);
+		((void(__thiscall*)(FreeScript::Actor*,bool))0x730ee0)(ptr,true);// This should use a VTABLE
 	}
 
 	void SetName(FreeScript::Actor* pActor, const std::string& pName)
