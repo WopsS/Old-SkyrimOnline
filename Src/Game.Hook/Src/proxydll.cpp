@@ -68,6 +68,18 @@ IDirect3D9* WINAPI Direct3DCreate9(UINT SDKVersion)
 	return (myIDirect3D9::instance );
 }
 
+void GetSkyrimSearchString(std::string & search_string){
+	char output[256]; 
+	GetPrivateProfileString("Loader","RuntimeName","TESV.exe",&output[0],256,".\\Data\\SKSE\\skse.ini");
+	search_string = std::string(&output[0]);
+}
+
+void GetOblivionSearchString(std::string & search_string){
+	char output[256]; 
+	GetPrivateProfileString("Loader","RuntimeName","Oblivion.exe",&output[0],256,".\\Data\\OBSE\\obse.ini");
+	search_string = std::string(&output[0]);
+}
+
 std::string GetPath()
 {
 	char buffer[MAX_PATH];
@@ -141,13 +153,17 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD fdwReason, LPVOID lpReserved)
 	case DLL_PROCESS_ATTACH:
 		{
 			std::string strL;
+			std::string findStringSkyrim;
+			std::string findStringOblivion;
 			strL.resize(MAX_PATH);
 			GetModuleFileName(NULL, &strL[0], MAX_PATH);
 
 			DisableThreadLibraryCalls(hModule);
-
-			if(strL.find("TESV.exe") != std::string::npos||strL.find("Skyrim.exe") != std::string::npos||strL.find("TESV_2.exe") != std::string::npos||
-			   strL.find("Oblivion.exe") != std::string::npos)
+			
+			GetSkyrimSearchString(findStringSkyrim);// use SKSE.ini to detect the correct name
+			GetOblivionSearchString(findStringOblivion);// use OBSE.ini to detect the correct name
+			if(strL.find(findStringSkyrim) != std::string::npos||
+			   strL.find(findStringOblivion) != std::string::npos)
 			{
 				gl_hThisInstance = hModule;
 				
@@ -160,12 +176,12 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD fdwReason, LPVOID lpReserved)
 				HMODULE user32 = LoadLibraryA("User32.dll");
 				oCreateWindowExA = (tCreateWindowExA)DetourFunction((PBYTE)GetProcAddress(user32, "CreateWindowExA"), (PBYTE)FakeCreateWindowExA);
 
-				if(strL.find("TESV.exe") != std::string::npos||strL.find("Skyrim.exe") != std::string::npos||strL.find("TESV_2.exe") != std::string::npos)// these extra names are used sometimes by people who want to launch skyrim through steam using SKSE
+				if(strL.find(findStringSkyrim) != std::string::npos)
 				{
 					InstallSkyrim();
 					GameType = 'skyr';
 				}
-				else if(strL.find("Oblivion.exe") != std::string::npos)
+				else //if(strL.find(findStringOblivion) != std::string::npos) // this is unnessisary as we already know it is either skyrim or oblivion
 				{	
 					InstallOblivion();
 					GameType = 'obli';
