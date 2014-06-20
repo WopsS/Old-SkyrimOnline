@@ -146,7 +146,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD fdwReason, LPVOID lpReserved)
 
 			DisableThreadLibraryCalls(hModule);
 
-			if(strL.find("TESV.exe") != std::string::npos ||
+			if(strL.find("TESV.exe") != std::string::npos||strL.find("Skyrim.exe") != std::string::npos||strL.find("TESV_2.exe") != std::string::npos||
 			   strL.find("Oblivion.exe") != std::string::npos)
 			{
 				gl_hThisInstance = hModule;
@@ -160,7 +160,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD fdwReason, LPVOID lpReserved)
 				HMODULE user32 = LoadLibraryA("User32.dll");
 				oCreateWindowExA = (tCreateWindowExA)DetourFunction((PBYTE)GetProcAddress(user32, "CreateWindowExA"), (PBYTE)FakeCreateWindowExA);
 
-				if(strL.find("TESV.exe") != std::string::npos)
+				if(strL.find("TESV.exe") != std::string::npos||strL.find("Skyrim.exe") != std::string::npos||strL.find("TESV_2.exe") != std::string::npos)// these extra names are used sometimes by people who want to launch skyrim through steam using SKSE
 				{
 					InstallSkyrim();
 					GameType = 'skyr';
