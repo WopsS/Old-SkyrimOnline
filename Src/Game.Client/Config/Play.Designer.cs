@@ -195,7 +195,7 @@
             this.DirectConnectPort_TextBox.Name = "DirectConnectPort_TextBox";
             this.DirectConnectPort_TextBox.Size = new System.Drawing.Size(146, 20);
             this.DirectConnectPort_TextBox.TabIndex = 11;
-            this.DirectConnectPort_TextBox.Text = "14243";
+            this.DirectConnectPort_TextBox.Text = "14242";
             this.DirectConnectPort_TextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.onDirectConnectPort_KeyPress);
             // 
             // DirectConnectPort_Label
@@ -241,6 +241,7 @@
             this.MaximumSize = new System.Drawing.Size(530, 385);
             this.MinimumSize = new System.Drawing.Size(530, 385);
             this.Name = "Play";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Skyrim Online - Configuration";
             this.ResumeLayout(false);
             this.PerformLayout();

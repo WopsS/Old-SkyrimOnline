@@ -162,8 +162,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD fdwReason, LPVOID lpReserved)
 			
 			GetSkyrimSearchString(findStringSkyrim);// use SKSE.ini to detect the correct name
 			GetOblivionSearchString(findStringOblivion);// use OBSE.ini to detect the correct name
-			if(strL.find(findStringSkyrim) != std::string::npos||
-			   strL.find(findStringOblivion) != std::string::npos)
+			if(strL.find(findStringSkyrim) != std::string::npos || strL.find(findStringOblivion) != std::string::npos)
 			{
 				gl_hThisInstance = hModule;
 				

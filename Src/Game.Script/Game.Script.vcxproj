@@ -21,7 +21,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120_CTP_Nov2012</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CLRSupport>true</CLRSupport>
     <CharacterSet>NotSet</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -100,7 +100,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Reference Include="MonoGame.Framework, Version=3.0.1.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="MonoGame.Framework, Version=3.1.2.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />

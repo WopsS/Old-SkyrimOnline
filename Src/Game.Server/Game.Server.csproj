@@ -32,7 +32,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\Bin\Release\</OutputPath>
+    <OutputPath>..\..\Bin\Release\Server\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -60,6 +60,9 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="INIFileParser">
+      <HintPath>..\..\packages\ini-parser.2.1.1\lib\INIFileParser.dll</HintPath>
+    </Reference>
     <Reference Include="Lidgren.Network, Version=2011.3.12.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="log4net">
       <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
@@ -78,7 +81,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="SteamKit2">
-      <HintPath>..\..\packages\SteamKit2.1.5.0\lib\net40\SteamKit2.dll</HintPath>
+      <HintPath>..\..\packages\SteamKit2.1.6.0\lib\net40\SteamKit2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -103,6 +106,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Game.Server_TemporaryKey.pfx" />
+    <None Include="LICENSE" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

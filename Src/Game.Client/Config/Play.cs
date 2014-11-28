@@ -26,7 +26,7 @@ namespace Game.Client.Config
         private Int64 GAME_SERVER_ID;
         private string address = "127.0.0.1";
         private bool connecting;
-        private int port = 14243;
+        private int port = 14242;
         //
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace Game.Client.Config
                 }
                 else
                 {
-                    port = Int32.Parse(DirectConnectPort_TextBox.Text);
+                    port = Convert.ToInt32(DirectConnectPort_TextBox.Text);
                     isPortSet = true;
                 }
 

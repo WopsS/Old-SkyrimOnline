@@ -35,7 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="INIFileParser">
-      <HintPath>..\..\packages\ini-parser.2.0.2\lib\INIFileParser.dll</HintPath>
+      <HintPath>..\..\packages\ini-parser.2.1.1\lib\INIFileParser.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
