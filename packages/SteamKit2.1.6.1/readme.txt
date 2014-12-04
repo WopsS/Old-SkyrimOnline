@@ -1,3 +1,88 @@
+------------------------------------------------------------------------------
+v 1.6.1			Nov 30, 2014
+------------------------------------------------------------------------------
+
+*	Added support for VZip when decompressing depot chunks.
+*	Improved thread safety and error handling inside `TcpConnection`.
+*	Added `DownloadDepotChunk` overload for consumers who insist on connecting to particular CDNs.
+* 	Updated `EResult` with the new field `NotModified`.
+*	Updated `EMsg` list.
+*	Updated `EOSType`.
+	*	The short names for Windows versions (e.g. `Win8` instead of `Windows8`) are preferred.
+	*	Addded `MacOS1010` for OS X 10.10 'Yosemite'
+*	Removed various long-obsolete values from enums where the value was renamed.
+*	Removed `EUniverse.RC`.
+*	Updated game related GC messages and protobufs.
+
+
+------------------------------------------------------------------------------
+v 1.6.0			Oct 11, 2014
+------------------------------------------------------------------------------
+
+*	Updated EOSType for newer Linux and Windows versions.
+*	A LoggedOnCallback with EResult.NoConnection is now posted when attempting to logon without being
+	connected to the remote Steam server.
+*	Fixed anonymous gameserver logon.
+*	CDNClient.Server's constructor now accepts a DnsEndPoint.
+*	Updated EResult with the following new fields: AccountLogonDeniedNeedTwoFactorCode, ItemDeleted,
+	AccountLoginDeniedThrottle, TwoFactorCodeMismatch
+*	Added public utility class for working with DateTime and unix epochs: DateUtils
+*	Added GetSingleFileInfo, ShareFile and related callbacks for dealing with Steam cloud files with the
+	SteamCloud handler.
+*	Fixed a potential crash when failing to properly deserialize network messages.
+*	Updated EMsg list.
+*	Refactored the internals of tcp connections to Steam servers to be more resiliant and threadsafe.
+*	CallbackMsg.Handle will now return a boolean indiciating that the passed in callback matches the
+	generic type parameter.
+*	Added support for logging into accounts with two-factor auth enabled. See the
+	SteamUser.LogOnDetails.TwoFactorCode field.
+*	Updated the bootstrap list of Steam CM servers that SteamKit will initially attempt to connect to.
+*	Added SteamFriends.FriendMsgEchoCallback for echoed messages sent to other logged in client
+	instances.
+*	Updated game related GC messages and protobufs.
+
+BREAKING CHANGES
+*	JobCallback API has been merged with Callback. For help with transitioning code, please see the following
+	wiki notes: https://github.com/SteamRE/SteamKit/wiki/JobCallback-Transition.
+*	UFSClient.UploadFileResponseCallback.JobID has been renamed to RemoteJobID in order to not conflict with
+	CallbackMsg's new JobID member.
+*	UFSClient.UploadDetails.JobID has been renamed to RemoteJobID.
+*	CDNClient has been refactored to support multiple authdepot calls for a single instance of the client
+	and to support CDN servers.
+*	The following EResult fields have been renamed:
+		PSNAccountNotLinked -> ExternalAccountUnlinked
+		InvalidPSNTicket -> PSNTicketInvalid
+		PSNAccountAlreadyLinked -> ExternalAccountAlreadyLinked
+
+
+------------------------------------------------------------------------------
+v 1.5.1			Mar 15, 2014
+------------------------------------------------------------------------------
+
+*	Added a parameterless public constructor to DepotManifest.ChunkData to support serialization.
+*	SteamWorkshop.RequestPublishedFileDetails has been obsoleted and is no longer supported. This functionality will be 
+	dropped in a future SteamKit release. See the the PublishedFile WebAPI service for a functional replacement.
+*	Added the request and response messages for the PublishedFile service.
+*	Fixed an unhandled exception when requesting metadata-only PICS product info.
+*	Exposed the following additional fields in the LoggedOnCallback: VanityURL, NumLoginFailuresToMigrate, NumDisconnectsToMigrate.
+*	Exposed the HTTP url details for PICS product info, see: PICSProductInfoCallback.PICSProductInfo.HttpUri and UseHttp.
+*	Added EEconTradeResponse.InitiatorPasswordResetProbation and InitiatorNewDeviceCooldown.
+*	Fixed SteamGameServer.LogOn and LogOnAnonymous sending the wrong message.
+*	Added support for token authentication for game server logon.
+*	Added the request and response messages for the GameServers service.
+*	Added the ability to specify server type for game servers, see: SteamGameServer.SendStatus.
+*	Exposed a few more fields on TradeResultCallback: NumDaysSteamGuardRequired, NumDaysNewDeviceCooldown,
+	DefaultNumDaysPasswordResetProbation, NumDaysPasswordResetProbation.
+*	Fixed being unable to download depot manifests.
+*	Added SteamID.SetFromSteam3String.
+*	Obsoleted SteamApps.SendGuestPass. This functionality will be dropped in a future SteamKit release.
+*	Updated EResult with the following new fields: UnexpectedError, Disabled, InvalidCEGSubmission, RestrictedDevice.
+*	Updated EMsg list.
+*	Updated game related GC messages.
+
+BREAKING CHANGES
+*	Fixed ServiceMethodResponse.RpcName containing a leading '.'.
+
 
 ------------------------------------------------------------------------------
 v 1.5.0			Oct 26, 2013

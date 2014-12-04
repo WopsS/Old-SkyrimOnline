@@ -8,6 +8,7 @@ using Game.Client.Controllers;
 using Game.Client.Interface;
 using Game.Client.IO;
 using RGiesecke.DllExport;
+using System.IO;
 
 #endregion
 
@@ -35,11 +36,16 @@ namespace Game.Client
         [DllExport]
         private static void Load()
         {
+            if (File.Exists("GameClient.txt"))
+                File.Delete("GameClient.txt");
+
+            File.AppendAllText("GameClient.txt", "Loaded\r\n");
         }
 
         [DllExport]
         private static void Initialize()
         {
+            File.AppendAllText("GameClient.txt", "Initialized\r\n");
             Application.EnableVisualStyles();
             Application.Run(new Play());
 
@@ -65,6 +71,7 @@ namespace Game.Client
         [DllExport]
         private static void Update()
         {
+            File.AppendAllText("GameClient.txt", "Updated\r\n");
             if (Enabled)
             {
                 if (UserInterace == null)
