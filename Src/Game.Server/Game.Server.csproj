@@ -63,13 +63,14 @@
     <Reference Include="INIFileParser">
       <HintPath>..\..\packages\ini-parser.2.1.1\lib\INIFileParser.dll</HintPath>
     </Reference>
-    <Reference Include="Lidgren.Network, Version=2011.3.12.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Lidgren.Network">
+      <HintPath>..\..\packages\Lidgren.Network.2012.2.15.2\lib\net45\Lidgren.Network.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="MonoGame.Framework, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\MonoGame\v3.0\Assemblies\WindowsGL\MonoGame.Framework.dll</HintPath>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\..\Dependencies\dll\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="protobuf-net, Version=2.0.0.666, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
