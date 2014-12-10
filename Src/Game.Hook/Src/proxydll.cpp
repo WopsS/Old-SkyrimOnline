@@ -172,7 +172,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD fdwReason, LPVOID lpReserved)
 				// Load all the plugins
 				GetInstance()->Load();
 
-				HMODULE user32 = LoadLibraryA("User32.dll");
+				HMODULE user32 = LoadLibraryA("user32.dll");
 				oCreateWindowExA = (tCreateWindowExA)DetourFunction((PBYTE)GetProcAddress(user32, "CreateWindowExA"), (PBYTE)FakeCreateWindowExA);
 
 				if(strL.find(findStringSkyrim) != std::string::npos)
@@ -194,6 +194,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD fdwReason, LPVOID lpReserved)
 		}
 	case DLL_PROCESS_DETACH:
 		{
+			file << GetLastError();
 			ReleaseWinAPI();
 			ReleaseDInput();
 			ExitInstance();
