@@ -116,7 +116,7 @@ namespace Game.Client.IO
                                 /*var message = new UpdatePlayerStateMessage(inc.SenderConnection.RemoteHailMessage);
                                 this.playerManager.AddPlayer(message.Id, message.Position, message.Velocity, message.Rotation, true);
                                 Console.WriteLine("Connected to {0}", inc.SenderEndPoint);*/
-                                ConnectionSuccess("Connected to " + inc.SenderEndpoint);
+                                ConnectionSuccess("Connected to " + inc.SenderEndPoint);
                                 break;
                             case NetConnectionStatus.Disconnected:
                                 if (Entry.UserInterace != null && Entry.UserInterace.Chat != null)
