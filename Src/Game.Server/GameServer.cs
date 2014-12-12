@@ -113,11 +113,11 @@ namespace Game.Server
                         switch (status)
                         {
                             case NetConnectionStatus.Connected:
-                                Logger.InfoFormat("{0} Connected", inc.SenderEndpoint);
+                                Logger.InfoFormat("{0} Connected", inc.SenderEndPoint);
                                 break;
                             case NetConnectionStatus.Disconnected:
                                 sessions.Remove(inc.SenderConnection);
-                                Logger.InfoFormat("{0} Disconnected", inc.SenderEndpoint);
+                                Logger.InfoFormat("{0} Disconnected", inc.SenderEndPoint);
                                 break;
                             case NetConnectionStatus.Disconnecting:
                             case NetConnectionStatus.InitiatedConnect:
