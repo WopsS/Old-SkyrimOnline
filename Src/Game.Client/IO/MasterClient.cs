@@ -52,13 +52,13 @@ namespace Game.Client.IO
                         MessageBox.Show(inc.ReadString());
                         break;
                     case NetIncomingMessageType.UnconnectedData:
-                        if (inc.SenderEndpoint.Equals(m_masterServer))
+                        if (inc.SenderEndPoint.Equals(m_masterServer))
                         {
                             var id = inc.ReadInt64();
                             var name = inc.ReadString();
                             var population = inc.ReadUInt16();
                             var maxPopulation = inc.ReadUInt16();
-                            var ipEndPoint = inc.ReadIPEndpoint();
+                            var ipEndPoint = inc.ReadIPEndPoint();
 
                             m_registeredHosts.Add(id, new Object[] {name, population, maxPopulation, ipEndPoint});
                             Updated(new Object[] {id, name, population, maxPopulation, ipEndPoint});
@@ -67,7 +67,7 @@ namespace Game.Client.IO
                     case NetIncomingMessageType.NatIntroductionSuccess:
                         string token = inc.ReadString();
                         if (m_token == new Guid(token))
-                            NatIntroductionSuccess(inc.SenderEndpoint);
+                            NatIntroductionSuccess(inc.SenderEndPoint);
                         break;
                 }
             }
