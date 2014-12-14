@@ -1,9 +1,11 @@
 Skyrim Online
 ===================================
 
-This is an old project of SkyrimOnline with some modifications on it.
+This is an old project of SkyrimOnline with some modifications on it. I created it because I need to fork the original project from Yamashi branch and I can't fork the same project twice.
 
 The project is [here](https://github.com/yamashi/SkyrimOnline).
+
+This branch is from Nihlus project.
 
 Readme as provided by Maxime Griot
 =================================
