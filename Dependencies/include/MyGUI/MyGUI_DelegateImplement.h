@@ -1,24 +1,8 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		11/2007
-*/
 /*
-	This file is part of MyGUI.
-
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
 namespace delegates
 {
@@ -41,9 +25,7 @@ namespace delegates
 	{
 	public:
 		virtual ~MYGUI_I_DELEGATE() { }
-#ifndef MYGUI_RTTI_DISABLE_TYPE_INFO
 		virtual bool isType( const std::type_info& _type) = 0;
-#endif
 		virtual void invoke( MYGUI_PARAMS ) = 0;
 		virtual bool compare(  MYGUI_I_DELEGATE MYGUI_TEMPLATE_ARGS* _delegate) const = 0;
 		virtual bool compare(IDelegateUnlink* _unlink) const
@@ -62,12 +44,10 @@ namespace delegates
 
 		MYGUI_C_STATIC_DELEGATE (Func _func) : mFunc(_func) { }
 
-#ifndef MYGUI_RTTI_DISABLE_TYPE_INFO
 		virtual bool isType( const std::type_info& _type)
 		{
 			return typeid( MYGUI_C_STATIC_DELEGATE MYGUI_TEMPLATE_ARGS ) == _type;
 		}
-#endif
 
 		virtual void invoke( MYGUI_PARAMS )
 		{
@@ -76,13 +56,8 @@ namespace delegates
 
 		virtual bool compare(  MYGUI_I_DELEGATE MYGUI_TEMPLATE_ARGS* _delegate) const
 		{
-#ifndef MYGUI_RTTI_DISABLE_TYPE_INFO
 			if (nullptr == _delegate || !_delegate->isType(typeid(MYGUI_C_STATIC_DELEGATE MYGUI_TEMPLATE_ARGS)) ) return false;
 			MYGUI_C_STATIC_DELEGATE MYGUI_TEMPLATE_ARGS* cast = static_cast<MYGUI_C_STATIC_DELEGATE MYGUI_TEMPLATE_ARGS*>(_delegate);
-#else
-			MYGUI_C_STATIC_DELEGATE MYGUI_TEMPLATE_ARGS* cast = dynamic_cast<MYGUI_C_STATIC_DELEGATE MYGUI_TEMPLATE_ARGS*>(_delegate);
-			if (nullptr == cast) return false;
-#endif
 			return cast->mFunc == mFunc;
 		}
 		virtual bool compare(IDelegateUnlink* _unlink) const
@@ -104,12 +79,10 @@ namespace delegates
 
 		MYGUI_C_METHOD_DELEGATE(IDelegateUnlink* _unlink, T* _object, Method _method) : mUnlink(_unlink), mObject(_object), mMethod(_method) { }
 
-#ifndef MYGUI_RTTI_DISABLE_TYPE_INFO
 		virtual bool isType( const std::type_info& _type)
 		{
 			return typeid( MYGUI_C_METHOD_DELEGATE MYGUI_T_TEMPLATE_ARGS ) == _type;
 		}
-#endif
 
 		virtual void invoke( MYGUI_PARAMS )
 		{
@@ -118,13 +91,8 @@ namespace delegates
 
 		virtual bool compare(  MYGUI_I_DELEGATE MYGUI_TEMPLATE_ARGS* _delegate) const
 		{
-#ifndef MYGUI_RTTI_DISABLE_TYPE_INFO
 			if (nullptr == _delegate || !_delegate->isType(typeid(MYGUI_C_METHOD_DELEGATE MYGUI_T_TEMPLATE_ARGS)) ) return false;
 			MYGUI_C_METHOD_DELEGATE MYGUI_T_TEMPLATE_ARGS* cast = static_cast<  MYGUI_C_METHOD_DELEGATE MYGUI_T_TEMPLATE_ARGS* >(_delegate);
-#else
-			MYGUI_C_METHOD_DELEGATE MYGUI_T_TEMPLATE_ARGS* cast = dynamic_cast<  MYGUI_C_METHOD_DELEGATE MYGUI_T_TEMPLATE_ARGS* >(_delegate);
-			if (nullptr == cast) return false;
-#endif
 			return cast->mObject == mObject && cast->mMethod == mMethod;
 		}
 

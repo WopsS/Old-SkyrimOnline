@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		08/2008
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #ifndef __MYGUI_SCROLL_VIEW_H__
 #define __MYGUI_SCROLL_VIEW_H__
 
@@ -29,6 +14,9 @@
 namespace MyGUI
 {
 
+	/** \brief @wpage{ScrollView}
+		ScrollView widget description should be here.
+	*/
 	class MYGUI_EXPORT ScrollView :
 		public Widget,
 		protected ScrollViewBase,
@@ -53,12 +41,12 @@ namespace MyGUI
 		/** @copydoc Widget::setCoord(int _left, int _top, int _width, int _height) */
 		void setCoord(int _left, int _top, int _width, int _height);
 
-		/** Show VScroll when text size larger than Edit */
+		/** Show VScroll when content size larger than view */
 		void setVisibleVScroll(bool _value);
 		/** Get Show VScroll flag */
 		bool isVisibleVScroll() const;
 
-		/** Show HScroll when text size larger than Edit */
+		/** Show HScroll when content size larger than view */
 		void setVisibleHScroll(bool _value);
 		/** Get Show HScroll flag */
 		bool isVisibleHScroll() const;

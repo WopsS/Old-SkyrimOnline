@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		01/2008
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #ifndef __MYGUI_ITEM_BOX_H__
 #define __MYGUI_ITEM_BOX_H__
 
@@ -38,6 +23,9 @@ namespace MyGUI
 	typedef delegates::CMultiDelegate2<ItemBox*, size_t> EventHandle_ItemBoxPtrSizeT;
 	typedef delegates::CMultiDelegate2<ItemBox*, const IBNotifyItemData&> EventHandle_ItemBoxPtrCIBNotifyCellDataRef;
 
+	/** \brief @wpage{ItemBox}
+		ItemBox widget description should be here.
+	*/
 	class MYGUI_EXPORT ItemBox :
 		public DDContainer,
 		protected ScrollViewBase,
@@ -139,14 +127,20 @@ namespace MyGUI
 		/** @copydoc Widget::setCoord(int _left, int _top, int _width, int _height) */
 		void setCoord(int _left, int _top, int _width, int _height);
 
+		/** Set view area offset. */
+		void setViewOffset(const IntPoint& _value);
+		/** Get view area offset. */
+		IntPoint getViewOffset();
+
+		virtual IntSize getViewSize();
+
 		/*events:*/
 		/** Event : Request for creating new item.\n
 			signature : void method(MyGUI::ItemBox* _sender, MyGUI::Widget* _item)
 			@param _sender widget that called this event
 			@param _item widget item pointer
 		*/
-		EventHandle_ItemBoxPtrWidgetPtr
-			requestCreateWidgetItem;
+		EventHandle_ItemBoxPtrWidgetPtr requestCreateWidgetItem;
 
 		/** Event : Request for item coordinate.\n
 			signature : void method(MyGUI::ItemBox* _sender, MyGUI::IntCoord& _coord, bool _drag)
@@ -154,8 +148,7 @@ namespace MyGUI
 			@param _coord write heer item coordinate
 			@param _drag is this item dragging
 		*/
-		EventHandle_ItemBoxPtrIntCoordRefBool
-			requestCoordItem;
+		EventHandle_ItemBoxPtrIntCoordRefBool requestCoordItem;
 
 		/** Event : Request for item redraw.\n
 			signature : void method(MyGUI::ItemBox* _sender, MyGUI::Widget* _item, const MyGUI::IBDrawItemInfo& _info)
@@ -163,40 +156,35 @@ namespace MyGUI
 			@param _item widget item pointer
 			@param _info item info
 		*/
-		EventHandle_ItemBoxPtrWidgetPtrCIBCellDrawInfoRef
-			requestDrawItem;
+		EventHandle_ItemBoxPtrWidgetPtrCIBCellDrawInfoRef requestDrawItem;
 
 		/** Event : Doubleclick or enter pressed on item.\n
 			signature : void method(MyGUI::ItemBox* _sender, size_t _index)
 			@param _sender widget that called this event
 			@param _index item index
 		*/
-		EventHandle_ItemBoxPtrSizeT
-			eventSelectItemAccept;
+		EventHandle_ItemBoxPtrSizeT eventSelectItemAccept;
 
 		/** Event : Position of selected item was changed.\n
 			signature : void method(MyGUI::ItemBox* _sender, size_t _index)
 			@param _sender widget that called this event
 			@param _index item index
 		*/
-		EventHandle_ItemBoxPtrSizeT
-			eventChangeItemPosition;
+		EventHandle_ItemBoxPtrSizeT eventChangeItemPosition;
 
 		/** Event : Click on item.\n
 			signature : void method(MyGUI::ItemBox* _sender, size_t _index)
 			@param _sender widget that called this event
 			@param _index item index
 		*/
-		EventHandle_ItemBoxPtrSizeT
-			eventMouseItemActivate;
+		EventHandle_ItemBoxPtrSizeT eventMouseItemActivate;
 
 		/** Event : Notify about event in item widget.\n
 			signature : void method(MyGUI::ItemBox* _sender, const MyGUI::IBNotifyItemData& _info)
 			@param _sender widget that called this event
 			@param _info info about item notify
 		*/
-		EventHandle_ItemBoxPtrCIBNotifyCellDataRef
-			eventNotifyItem;
+		EventHandle_ItemBoxPtrCIBNotifyCellDataRef eventNotifyItem;
 
 		/*internal:*/
 		virtual void _resetContainer(bool _update);
@@ -215,6 +203,8 @@ namespace MyGUI
 
 		virtual void onMouseButtonPressed(int _left, int _top, MouseButton _id);
 		virtual void onMouseButtonReleased(int _left, int _top, MouseButton _id);
+		virtual void onKeyButtonPressed(KeyCode _key, Char _char);
+		virtual void onKeyButtonReleased(KeyCode _key);
 		virtual void onMouseDrag(int _left, int _top, MouseButton _id);
 
 		virtual void onMouseWheel(int _rel);
@@ -268,7 +258,6 @@ namespace MyGUI
 
 		virtual IntSize getContentSize();
 		virtual IntPoint getContentPosition();
-		virtual IntSize getViewSize();
 		virtual void eraseContent();
 		virtual size_t getHScrollPage();
 		virtual size_t getVScrollPage();

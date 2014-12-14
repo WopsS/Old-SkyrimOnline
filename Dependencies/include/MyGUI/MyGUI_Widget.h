@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		11/2007
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #ifndef __MYGUI_WIDGET_H__
 #define __MYGUI_WIDGET_H__
 
@@ -38,6 +23,9 @@ namespace MyGUI
 
 	typedef delegates::CMultiDelegate3<Widget*, const std::string&, const std::string&> EventHandle_WidgetStringString;
 
+	/** \brief @wpage{Widget}
+		Widget widget description should be here.
+	*/
 	class MYGUI_EXPORT Widget :
 		public IObject,
 		public ICroppedRectangle,
@@ -156,6 +144,14 @@ namespace MyGUI
 		/** Return true if visible */
 		bool getVisible() const;
 
+		/** Set child widget rendering depth for ordering child widgets.
+			Widget with higher depth is rendered below widget with lower depth.
+			Available only for child widgets. For root widgets use layer property instead.
+		*/
+		void setDepth(int _value);
+		/** Get child widget rendering depth */
+		int getDepth() const;
+
 		/** Return widget's visibility based on it's and parents visibility. */
 		bool getInheritedVisible() const;
 
@@ -221,7 +217,7 @@ namespace MyGUI
 		/** Is widget enabled */
 		bool getEnabled() const;
 
-		/** Is widget enabled and all it's parents in hierarchy is enabled. */
+		/** Is widget enabled and all it's parents in hierarchy are enabled. */
 		bool getInheritedEnabled() const;
 
 		/** Get rectangle where child widgets placed */
@@ -267,8 +263,13 @@ namespace MyGUI
 			@param _key
 			@param _value
 		*/
-		EventHandle_WidgetStringString
-			eventChangeProperty;
+		EventHandle_WidgetStringString eventChangeProperty;
+
+		/** Event : Widget coordinate changed (widget was resized or moved).\n
+			signature : void method(MyGUI::Widget* _sender)
+			@param _sender widget that called this event
+		*/
+		EventHandle_WidgetVoid eventChangeCoord;
 
 		/*internal:*/
 		// метод для запроса номера айтема и контейнера
@@ -296,6 +297,9 @@ namespace MyGUI
 
 		bool _setWidgetState(const std::string& _value);
 
+		// перерисовывает детей
+		void _updateChilds();
+
 	protected:
 		// все создание только через фабрику
 		virtual ~Widget();
@@ -321,7 +325,7 @@ namespace MyGUI
 		virtual const IntCoord& getLayerItemCoord() const;
 
 		template <typename T>
-		void assignWidget(T * & _widget, const std::string& _name)
+		void assignWidget(T*& _widget, const std::string& _name)
 		{
 			_widget = nullptr;
 			for (VectorWidgetPtr::iterator iter = mWidgetChildSkin.begin(); iter != mWidgetChildSkin.end(); ++iter)
@@ -375,6 +379,8 @@ namespace MyGUI
 
 		virtual void resizeLayerItemView(const IntSize& _oldView, const IntSize& _newView);
 
+		void addWidget(Widget* _widget);
+
 	private:
 		// клиентская зона окна
 		// если виджет имеет пользовательские окна не в себе
@@ -409,6 +415,7 @@ namespace MyGUI
 
 		Align mAlign;
 		bool mVisible;
+		int mDepth;
 	};
 
 } // namespace MyGUI

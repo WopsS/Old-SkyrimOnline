@@ -59,6 +59,7 @@ namespace Game.Client.IO
         public void OnEvent(KeyboardEvent ev)
         {
             // F3 - http://community.bistudio.com/wiki/DIK_KeyCodes
+
             /* if (ev.Pressed)
             {
                 Entry.UserInterace.Chat.Log("Pressed key : " + ev.Key.ToString());
@@ -67,20 +68,19 @@ namespace Game.Client.IO
             {
                 Entry.UserInterace.Chat.Log("Released key : " + ev.Key.ToString());
             }*/
+
             if (ev.Key == 0x9D && ev.Pressed)
             {
                 UIEnabled = !UIEnabled;
+
                 if (UIEnabled)
                     GlobalContext.Controller.DisableInput();
-                    
                 else
                     GlobalContext.Controller.EnableInput();
             }
 
             if (UIEnabled)
-            {
                 Overlay.System.InjectKeyboardKey(ev.Key, ev.Pressed);
-            }
         }
 
         public void OnEvent(MouseEvent ev)

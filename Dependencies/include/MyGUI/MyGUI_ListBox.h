@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		11/2007
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #ifndef __MYGUI_LIST_BOX_H__
 #define __MYGUI_LIST_BOX_H__
 
@@ -28,12 +13,17 @@
 #include "MyGUI_EventPair.h"
 #include "MyGUI_IItem.h"
 #include "MyGUI_IItemContainer.h"
+#include "MyGUI_IBItemInfo.h"
 
 namespace MyGUI
 {
 
 	typedef delegates::CMultiDelegate2<ListBox*, size_t> EventHandle_ListPtrSizeT;
+	typedef delegates::CMultiDelegate2<ListBox*, const IBNotifyItemData&> EventHandle_ListBoxPtrCIBNotifyCellDataRef;
 
+	/** \brief @wpage{ListBox}
+		ListBox widget description should be here.
+	*/
 	class MYGUI_EXPORT ListBox :
 		public Widget,
 		public IItemContainer,
@@ -189,46 +179,55 @@ namespace MyGUI
 		//! Return optimal height to fit all items in ListBox
 		int getOptimalHeight();
 
+		/** Get item Widget pointer by item index if it is visible
+			@note returned widget can be deleted, so this pointer
+			is valid only at time when you got it and can be invalid
+			next frame
+		*/
+		Widget* getWidgetByIndex(size_t _index);
+
 		/*events:*/
 		/** Event : Enter pressed or double click.\n
 			signature : void method(MyGUI::ListBox* _sender, size_t _index)\n
 			@param _sender widget that called this event
 			@param _index of selected item
 		*/
-		EventPair<EventHandle_WidgetSizeT, EventHandle_ListPtrSizeT>
-			eventListSelectAccept;
+		EventPair<EventHandle_WidgetSizeT, EventHandle_ListPtrSizeT> eventListSelectAccept;
 
 		/** Event : Selected item position changed.\n
 			signature : void method(MyGUI::ListBox* _sender, size_t _index)\n
 			@param _sender widget that called this event
 			@param _index of new item
 		*/
-		EventPair<EventHandle_WidgetSizeT, EventHandle_ListPtrSizeT>
-			eventListChangePosition;
+		EventPair<EventHandle_WidgetSizeT, EventHandle_ListPtrSizeT> eventListChangePosition;
 
 		/** Event : Item was selected by mouse.\n
 			signature : void method(MyGUI::ListBox* _sender, size_t _index)\n
 			@param _sender widget that called this event
 			@param _index index of selected item
 		*/
-		EventPair<EventHandle_WidgetSizeT, EventHandle_ListPtrSizeT>
-			eventListMouseItemActivate;
+		EventPair<EventHandle_WidgetSizeT, EventHandle_ListPtrSizeT> eventListMouseItemActivate;
 
 		/** Event : Mouse is over item.\n
 			signature : void method(MyGUI::ListBox* _sender, size_t _index)\n
 			@param _sender widget that called this event
 			@param _index of focused item
 		*/
-		EventPair<EventHandle_WidgetSizeT, EventHandle_ListPtrSizeT>
-			eventListMouseItemFocus;
+		EventPair<EventHandle_WidgetSizeT, EventHandle_ListPtrSizeT> eventListMouseItemFocus;
 
 		/** Event : Position of scroll changed.\n
 			signature : void method(MyGUI::ListBox* _sender, size_t _position)\n
 			@param _sender widget that called this event
 			@param _position of scroll
 		*/
-		EventPair<EventHandle_WidgetSizeT, EventHandle_ListPtrSizeT>
-			eventListChangeScroll;
+		EventPair<EventHandle_WidgetSizeT, EventHandle_ListPtrSizeT> eventListChangeScroll;
+
+		/** Event : Notify about event in item widget.\n
+			signature : void method(MyGUI::ListBox* _sender, const MyGUI::IBNotifyItemData& _info)
+			@param _sender widget that called this event
+			@param _info info about item notify
+		*/
+		EventHandle_ListBoxPtrCIBNotifyCellDataRef eventNotifyItem;
 
 		/*internal:*/
 		/** \internal @name Internal
@@ -258,6 +257,7 @@ namespace MyGUI
 
 		void onMouseWheel(int _rel);
 		void onKeyButtonPressed(KeyCode _key, Char _char);
+		void onKeyButtonReleased(KeyCode _key);
 
 		void notifyScrollChangePosition(ScrollBar* _sender, size_t _rel);
 		void notifyMousePressed(Widget* _sender, int _left, int _top, MouseButton _id);
@@ -265,6 +265,9 @@ namespace MyGUI
 		void notifyMouseWheel(Widget* _sender, int _rel);
 		void notifyMouseSetFocus(Widget* _sender, Widget* _old);
 		void notifyMouseLostFocus(Widget* _sender, Widget* _new);
+		void notifyKeyButtonPressed(Widget* _sender, KeyCode _key, Char _char);
+		void notifyKeyButtonReleased(Widget* _sender, KeyCode _key);
+		void notifyMouseButtonReleased(Widget* _sender, int _left, int _top, MouseButton _id);
 
 		void updateScroll();
 		void updateLine(bool _reset = false);
@@ -288,6 +291,8 @@ namespace MyGUI
 		void _checkMapping(const std::string& _owner);
 
 		Widget* _getClientWidget();
+
+		size_t getIndexByWidget(Widget* _widget);
 
 	private:
 		std::string mSkinLine;

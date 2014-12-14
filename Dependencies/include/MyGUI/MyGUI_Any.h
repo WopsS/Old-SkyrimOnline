@@ -1,24 +1,8 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		10/2008
-*/
 /*
-	This file is part of MyGUI.
-
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
 // -- Based on boost::any, original copyright information follows --
 // Copyright Kevlin Henney, 2000, 2001, 2002. All rights reserved.
@@ -34,9 +18,7 @@
 #include "MyGUI_Diagnostic.h"
 #include <algorithm>
 
-#ifndef MYGUI_RTTI_DISABLE_TYPE_INFO
 #include <typeinfo>
-#endif
 
 namespace MyGUI
 {
@@ -110,7 +92,6 @@ namespace MyGUI
 
 		bool empty() const;
 
-#ifndef MYGUI_RTTI_DISABLE_TYPE_INFO
 		const std::type_info& getType() const;
 
 		template<typename ValueType>
@@ -121,17 +102,6 @@ namespace MyGUI
 			MYGUI_ASSERT(!_throw, "Bad cast from type '" << getType().name() << "' to '" << typeid(ValueType).name() << "'");
 			return nullptr;
 		}
-#else
-		template<typename ValueType>
-		ValueType* castType(bool _throw = true) const
-		{
-			Any::Holder<ValueType>* data = dynamic_cast<Any::Holder<ValueType> *>(this->mContent);
-			if (data != nullptr)
-				return &data->held;
-			MYGUI_ASSERT(!_throw, "Bad cast any");
-			return nullptr;
-		}
-#endif
 
 		void* castUnsafe() const;
 
@@ -142,9 +112,7 @@ namespace MyGUI
 			virtual ~Placeholder() { }
 
 		public:
-#ifndef MYGUI_RTTI_DISABLE_TYPE_INFO
 			virtual const std::type_info& getType() const = 0;
-#endif
 			virtual Placeholder* clone() const = 0;
 		};
 
@@ -159,12 +127,10 @@ namespace MyGUI
 			}
 
 		public:
-#ifndef MYGUI_RTTI_DISABLE_TYPE_INFO
 			virtual const std::type_info& getType() const
 			{
 				return typeid(ValueType);
 			}
-#endif
 
 			virtual Placeholder* clone() const
 			{

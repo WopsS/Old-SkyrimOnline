@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		11/2007
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #ifndef __MYGUI_WINDOW_H__
 #define __MYGUI_WINDOW_H__
 
@@ -36,8 +21,11 @@ namespace MyGUI
 	typedef delegates::CMultiDelegate2<Window*, const std::string&> EventHandle_WindowPtrCStringRef;
 	typedef delegates::CMultiDelegate1<Window*> EventHandle_WindowPtr;
 
+	/** \brief @wpage{Window}
+		Window widget description should be here.
+	*/
 	class MYGUI_EXPORT Window :
-		public TextBox, // FIXME пока для кэпшена вместо виджета текст
+		public TextBox, // FIXME пока для кэпшена вместо виджета текст (Bug #190)
 		public MemberObsolete<Window>
 	{
 		MYGUI_RTTI_DERIVED( Window )
@@ -113,15 +101,13 @@ namespace MyGUI
 			@param _sender widget that called this event
 			@param _name of pressed button
 		*/
-		EventPair<EventHandle_WidgetString, EventHandle_WindowPtrCStringRef>
-			eventWindowButtonPressed;
+		EventPair<EventHandle_WidgetString, EventHandle_WindowPtrCStringRef> eventWindowButtonPressed;
 
 		/** Event : Window coordinate changed (window was resized or moved).\n
 			signature : void method(MyGUI::Window* _sender)
 			@param _sender widget that called this event
 		*/
-		EventPair<EventHandle_WidgetVoid, EventHandle_WindowPtr>
-			eventWindowChangeCoord;
+		EventPair<EventHandle_WidgetVoid, EventHandle_WindowPtr> eventWindowChangeCoord;
 
 	protected:
 		virtual void initialiseOverride();
@@ -137,11 +123,12 @@ namespace MyGUI
 		void notifyMouseReleased(MyGUI::Widget* _sender, int _left, int _top, MouseButton _id);
 		void notifyPressedButtonEvent(MyGUI::Widget* _sender);
 		void notifyMouseDrag(MyGUI::Widget* _sender, int _left, int _top, MouseButton _id);
+		void notifyMouseWheel(MyGUI::Widget* _sender, int _rel);
 
 		// просто обновляет альфу взависимости от флагов
 		void updateAlpha();
 
-		void animateStop(Widget* _widget);
+		void animateStop(Widget* _widget, ControllerItem* _controller);
 
 		virtual void setPropertyOverride(const std::string& _key, const std::string& _value);
 

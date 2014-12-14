@@ -8,6 +8,11 @@
 typedef void (__stdcall *TWait)(int);
 typedef void (__stdcall *TRegisterPlugin)(HINSTANCE);
 
+typedef HWND(WINAPI* tCreateWindowExA)(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName, DWORD dwStyle, int X, int Y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam);
+tCreateWindowExA oCreateWindowExA;
+typedef HANDLE(WINAPI *tCreateThread)(LPSECURITY_ATTRIBUTES, SIZE_T, LPTHREAD_START_ROUTINE, LPVOID, DWORD, PDWORD);
+tCreateThread oCreateThread;
+
 TRegisterPlugin RegisterPlugin;		
 TWait Wait;
 
@@ -36,13 +41,38 @@ void SkyrimPluginInit(HMODULE hModule)
 	RegisterPlugin(hModule);
 }
 
-typedef HANDLE (WINAPI *tCreateThread)(LPSECURITY_ATTRIBUTES,SIZE_T,LPTHREAD_START_ROUTINE,LPVOID,DWORD,PDWORD);
-tCreateThread oCreateThread;
+void Init()
+{
+	static bool init = true;
+	if (init)
+	{
+		init = false;
+		GetInstance()->Initialize();
+	}
+}
+HWND WINAPI FakeCreateWindowExA(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName, DWORD dwStyle, int X, int Y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam)
+{
+	Init();
 
+	return oCreateWindowExA(dwExStyle, lpClassName, lpWindowName, dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
+}
 HANDLE WINAPI FakeCreateThread(LPSECURITY_ATTRIBUTES lpThreadAttributes, SIZE_T dwStackSize, LPTHREAD_START_ROUTINE lpStartAddress, LPVOID lpParameter, DWORD dwCreationFlags, PDWORD lpThreadId)
 {
-	if(*(uint32_t*)lpParameter == 0x010CDD60) // VMInitThread::vftable (this should be replaced with a signature scan)
+	if (!GetInstance() && *(uint32_t*)lpParameter == 0x010CDD60)
+	{
+		// This block MUST run BEFORE any hook, CLR won't run otherwise.
+		// Create the PluginManager
+		Create();
+		// Load all the plugins
+		GetInstance()->Load();
+	
+		HMODULE user32 = LoadLibraryA("user32.dll");
+		oCreateWindowExA = (tCreateWindowExA)DetourFunction((PBYTE)GetProcAddress(user32, "CreateWindowExA"), (PBYTE)FakeCreateWindowExA);
+
 		SkyrimPluginInit(gl_hThisInstance);
+
+		//::LoadLibrary("Skyrim.Script.dll");
+	}
 
 	return oCreateThread(lpThreadAttributes, dwStackSize,lpStartAddress,lpParameter,dwCreationFlags,lpThreadId);
 }

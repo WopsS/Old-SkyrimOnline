@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		12/2007
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #ifndef __MYGUI_COMBO_BOX_H__
 #define __MYGUI_COMBO_BOX_H__
 
@@ -37,6 +22,9 @@ namespace MyGUI
 
 	typedef delegates::CMultiDelegate2<ComboBox*, size_t> EventHandle_ComboBoxPtrSizeT;
 
+	/** \brief @wpage{ComboBox}
+		ComboBox widget description should be here.
+	*/
 	class MYGUI_EXPORT ComboBox :
 		public EditBox,
 		public IItemContainer,
@@ -157,16 +145,14 @@ namespace MyGUI
 			@param _sender widget that called this event
 			@param _index item
 		*/
-		EventPair<EventHandle_WidgetVoid, EventHandle_ComboBoxPtrSizeT>
-			eventComboAccept;
+		EventPair<EventHandle_WidgetVoid, EventHandle_ComboBoxPtrSizeT> eventComboAccept;
 
 		/** Event : Position changed.\n
 			signature : void method(MyGUI::ComboBox* _sender, size_t _index)
 			@param _sender widget that called this event
 			@param _index of new position
 		*/
-		EventPair<EventHandle_WidgetSizeT, EventHandle_ComboBoxPtrSizeT>
-			eventComboChangePosition;
+		EventPair<EventHandle_WidgetSizeT, EventHandle_ComboBoxPtrSizeT> eventComboChangePosition;
 
 		/*internal:*/
 		// IItemContainer impl
@@ -200,7 +186,7 @@ namespace MyGUI
 		void showList();
 		void hideList();
 
-		void actionWidgetHide(Widget* _widget);
+		void actionWidgetHide(Widget* _widget, ControllerItem* _controller);
 
 		ControllerFadeAlpha* createControllerFadeAlpha(float _alpha, float _coef, bool _enable);
 		IntCoord calculateListPosition();

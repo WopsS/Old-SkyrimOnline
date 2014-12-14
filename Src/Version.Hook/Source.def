@@ -11,3 +11,5 @@ EXPORTS
 		GetFileVersionInfoSizeExW @8
 		GetFileVersionInfoExA @9
 		GetFileVersionInfoExW @10
+		VerLanguageNameA @11
+		VerLanguageNameW @12

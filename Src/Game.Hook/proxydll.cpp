@@ -14,16 +14,6 @@ HINSTANCE           gl_hThisInstance;
 
 void LoadOriginalDll();
 
-void Init()
-{
-	static bool init = true;
-	if(init)
-	{
-		init = false;
-		GetInstance()->Initialize();
-	}
-}
-
 void WINAPI D3DPERF_SetOptions( DWORD dwOptions )
 {
 	if (!gl_hOriginalDll) LoadOriginalDll(); // looking for the "right d3d9.dll"
@@ -134,15 +124,6 @@ void ExitInstance()
 
 #pragma unmanaged
 
-typedef HWND (WINAPI* tCreateWindowExA)(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName, DWORD dwStyle, int X, int Y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam);
-tCreateWindowExA oCreateWindowExA;
-
-HWND WINAPI FakeCreateWindowExA(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName, DWORD dwStyle, int X, int Y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam)
-{
-	Init();
-
-	return oCreateWindowExA(dwExStyle, lpClassName, lpWindowName, dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
-}
 
 int GameType = 0;
 
@@ -152,9 +133,8 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD fdwReason, LPVOID lpReserved)
 	{
 	case DLL_PROCESS_ATTACH:
 		{
-			std::string strL;
-			std::string findStringSkyrim;
-			std::string findStringOblivion;
+			std::string strL, findStringSkyrim, findStringOblivion;
+
 			strL.resize(MAX_PATH);
 			GetModuleFileName(NULL, &strL[0], MAX_PATH);
 
@@ -166,15 +146,6 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD fdwReason, LPVOID lpReserved)
 			{
 				gl_hThisInstance = hModule;
 				
-				// This block MUST run BEFORE any hook, CLR won't run otherwise.
-				// Create the PluginManager
-				Create();
-				// Load all the plugins
-				GetInstance()->Load();
-
-				HMODULE user32 = LoadLibraryA("user32.dll");
-				oCreateWindowExA = (tCreateWindowExA)DetourFunction((PBYTE)GetProcAddress(user32, "CreateWindowExA"), (PBYTE)FakeCreateWindowExA);
-
 				if(strL.find(findStringSkyrim) != std::string::npos)
 				{
 					InstallSkyrim();

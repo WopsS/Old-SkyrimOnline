@@ -4,8 +4,8 @@
  * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
  */
 
-#ifndef __MYGUI_DATA_STREAM_H__
-#define __MYGUI_DATA_STREAM_H__
+#ifndef __MYGUI_DATA_MEMORY_STREAM_H__
+#define __MYGUI_DATA_MEMORY_STREAM_H__
 
 #include "MyGUI_Prerequest.h"
 #include "MyGUI_IDataStream.h"
@@ -13,24 +13,28 @@
 namespace MyGUI
 {
 
-	class MYGUI_EXPORT DataStream :
+	class MYGUI_EXPORT DataMemoryStream :
 		public IDataStream
 	{
 	public:
-		DataStream();
-		DataStream(std::istream* _stream);
-		virtual ~DataStream();
+		DataMemoryStream();
+		DataMemoryStream(unsigned char* _data, size_t _size);
+		virtual ~DataMemoryStream();
 
 		virtual bool eof();
 		virtual size_t size();
 		virtual void readline(std::string& _source, Char _delim);
 		virtual size_t read(void* _buf, size_t _count);
 
+	private:
+		void prepareStream();
+
 	protected:
-		std::istream* mStream;
+		unsigned char* mData;
 		size_t mSize;
+		std::stringstream* mStream;
 	};
 
 } // namespace MyGUI
 
-#endif // __MYGUI_DATA_STREAM_H__
+#endif // __MYGUI_DATA_MEMORY_STREAM_H__
