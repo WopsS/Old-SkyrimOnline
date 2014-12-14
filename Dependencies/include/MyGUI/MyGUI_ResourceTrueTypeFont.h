@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		06/2009
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #ifndef __MYGUI_RESOURCE_TRUE_TYPE_FONT_H__
 #define __MYGUI_RESOURCE_TRUE_TYPE_FONT_H__
 
@@ -27,8 +12,8 @@
 #include "MyGUI_IFont.h"
 
 #ifdef MYGUI_USE_FREETYPE
-	#include <ft2build.h>
-	#include FT_FREETYPE_H
+#	include <ft2build.h>
+#	include FT_FREETYPE_H
 #endif // MYGUI_USE_FREETYPE
 
 namespace MyGUI
@@ -62,23 +47,45 @@ namespace MyGUI
 		// code point is FontCodeType::NotDefined, but it can be customized in the font definition file.
 		Char getSubstituteCodePoint() const;
 
-	private:
-		void addCodePoint(Char _codePoint);
-		void removeCodePoint(Char _codePoint);
+		// создаение ресурса по текущим значениям
+		void initialise();
+
+		void setSource(const std::string& _value);
+		void setSize(float _value);
+		void setResolution(uint _value);
+		void setHinting(const std::string& _value);
+		void setAntialias(bool _value);
+		void setTabWidth(float _value);
+		void setOffsetHeight(int _value);
+		void setSubstituteCode(int _value);
+		void setDistance(int _value);
 
 		void addCodePointRange(Char _first, Char _second);
 		void removeCodePointRange(Char _first, Char _second);
 
-		void clearCodePoints();
+#ifdef MYGUI_USE_FREETYPE
+	private:
+		enum Hinting
+		{
+			HintingUseNative,
+			HintingForceAuto,
+			HintingDisableAuto,
+			HintingDisableAll
+		};
 
-		void initialise();
+		void addCodePoint(Char _codePoint);
+		void removeCodePoint(Char _codePoint);
+
+		void clearCodePoints();
 
 		// The following variables are set directly from values specified by the user.
 		std::string mSource; // Source (filename) of the font.
 		float mSize; // Size of the font, in points (there are 72 points per inch).
 		uint mResolution; // Resolution of the font, in pixels per inch.
+		Hinting mHinting; // What type of hinting to use when rendering the font.
 		bool mAntialias; // Whether or not to anti-alias the font by copying its alpha channel to its luminance channel.
 		float mSpaceWidth; // The width of a "Space" character, in pixels. If zero, the default width is used.
+		int mGlyphSpacing; // How far apart the glyphs are placed from each other in the font texture, in pixels.
 		float mTabWidth; // The width of the "Tab" special character, in pixels.
 		int mOffsetHeight; // How far up to nudge text rendered in this font, in pixels. May be negative to nudge text down.
 		Char mSubstituteCodePoint; // The code point to use as a substitute for code points that don't exist in the font.
@@ -89,11 +96,10 @@ namespace MyGUI
 		MyGUI::ITexture* mTexture; // The texture that contains all of the rendered glyphs in the font.
 
 		// The following constants used to be mutable, but they no longer need to be. Do not modify their values!
-		static const int mGlyphSpacing; // How far apart the glyphs are placed from each other in the font texture, in pixels.
+		static const int mDefaultGlyphSpacing; // How far apart the glyphs are placed from each other in the font texture, in pixels.
+		static const float mDefaultTabWidth; // Default "Tab" width, used only when tab width is no specified.
 		static const float mSelectedWidth; // The width of the "Selected" and "SelectedBack" special characters, in pixels.
 		static const float mCursorWidth; // The width of the "Cursor" special character, in pixels.
-
-#ifdef MYGUI_USE_FREETYPE
 
 	private:
 		// A map of code points to glyph indices.
@@ -128,11 +134,11 @@ namespace MyGUI
 
 		// Creates a glyph with the specified index from the specified font face and assigns it to the specified code point.
 		// Automatically updates _glyphHeightMap with data from the newly created glyph.
-		int createFaceGlyph(FT_UInt _glyphIndex, Char _codePoint, int _fontAscent, const FT_Face& _face, GlyphHeightMap& _glyphHeightMap);
+		int createFaceGlyph(FT_UInt _glyphIndex, Char _codePoint, int _fontAscent, const FT_Face& _ftFace, FT_Int32 _ftLoadFlags, GlyphHeightMap& _glyphHeightMap);
 
 		// Renders all of the glyphs in _glyphHeightMap into the specified texture buffer using data from the specified font face.
 		template<bool LAMode, bool Antialias>
-		void renderGlyphs(const GlyphHeightMap& _glyphHeightMap, const FT_Library& _ftLibrary, const FT_Face& _face, uint8* _texBuffer, int _texWidth, int _texHeight);
+		void renderGlyphs(const GlyphHeightMap& _glyphHeightMap, const FT_Library& _ftLibrary, const FT_Face& _ftFace, FT_Int32 _ftLoadFlags, uint8* _texBuffer, int _texWidth, int _texHeight);
 
 		// Renders the glyph described by the specified glyph info according to the specified parameters.
 		// Supports two types of rendering, depending on the value of UseBuffer: Texture block transfer and rectangular color fill.

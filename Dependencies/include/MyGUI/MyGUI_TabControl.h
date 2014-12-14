@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		01/2008
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #ifndef __MYGUI_TAB_CONTROL_H__
 #define __MYGUI_TAB_CONTROL_H__
 
@@ -35,6 +20,9 @@ namespace MyGUI
 
 	typedef delegates::CMultiDelegate2<TabControl*, size_t> EventHandle_TabPtrSizeT;
 
+	/** \brief @wpage{TabControl}
+		TabControl widget description should be here.
+	*/
 	class MYGUI_EXPORT TabControl :
 		public Widget,
 		public IItemContainer,
@@ -233,8 +221,7 @@ namespace MyGUI
 			@param _sender widget that called this event
 			@param _index Index of selected sheet
 		*/
-		EventPair<EventHandle_WidgetSizeT, EventHandle_TabPtrSizeT>
-			eventTabChangeSelect;
+		EventPair<EventHandle_WidgetSizeT, EventHandle_TabPtrSizeT> eventTabChangeSelect;
 
 		/*internal:*/
 		// IItemContainer impl
@@ -270,7 +257,7 @@ namespace MyGUI
 		virtual void setPropertyOverride(const std::string& _key, const std::string& _value);
 
 	private:
-		void actionWidgetHide(Widget* _widget);
+		void actionWidgetHide(Widget* _widget, ControllerItem* _controller);
 
 		ControllerFadeAlpha* createControllerFadeAlpha(float _alpha, float _coef, bool _enable);
 

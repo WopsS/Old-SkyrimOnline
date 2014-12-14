@@ -21,6 +21,7 @@ namespace Game.Client.Config
         public static readonly string NOT_A_NUMBER = "Port can only contain numbers. Please enter a number.";
         public static readonly string NO_PORT_SET = "No port set. Please enter a port.";
         public static readonly string NO_ADDRESS_SET = "No address set. Please enter an IP or URL.";
+        public static readonly string NO_USERNAME_SET = "Please enter your username.";
         private readonly MasterClient client;
         private readonly ListViewColumnSorter sorter = new ListViewColumnSorter();
         private Int64 GAME_SERVER_ID;
@@ -45,6 +46,18 @@ namespace Game.Client.Config
             serverList.ListViewItemSorter = sorter;
 
             Application.Idle += AppIdle;
+        }
+
+        private void Play_Load(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.UpgradeRequired == true)
+            {
+                Properties.Settings.Default.Upgrade();
+                Properties.Settings.Default.UpgradeRequired = false;
+                Properties.Settings.Default.Save();
+            }
+
+            playerNameBox.Text = Properties.Settings.Default.asdasdas;
         }
 
         /// <summary>
@@ -93,6 +106,12 @@ namespace Game.Client.Config
         /// <param name="endpoint"></param>
         private void natIntroductionSuccess(IPEndPoint endpoint)
         {
+            if (playerNameBox.Text.Length == 0)
+            {
+                MessageBox.Show(NO_USERNAME_SET);
+                return;
+            }
+
             m_timer.Enabled = false;
 
             Entry.GameClient = new GameClient(endpoint);
@@ -101,6 +120,9 @@ namespace Game.Client.Config
             Entry.GameClient.ConnectionFailed += connectionFailed;
 
             Entry.Username = playerNameBox.Text;
+
+            Properties.Settings.Default.asdasdas = playerNameBox.Text;
+            Properties.Settings.Default.Save();
 
             Entry.GameClient.Connect();
         }
@@ -138,7 +160,7 @@ namespace Game.Client.Config
             {
                 Boolean isPortSet = false, isAddressSet = false;
 
-                if (DirectConnectAddress_TextBox.Text.Equals(""))
+                if (DirectConnectAddress_TextBox.Text.Length == 0)
                 {
                     MessageBox.Show(NO_ADDRESS_SET);
                 }
@@ -148,7 +170,7 @@ namespace Game.Client.Config
                     isAddressSet = true;
                 }
 
-                if (DirectConnectPort_TextBox.Text.Equals(""))
+                if (DirectConnectPort_TextBox.Text.Length == 0)
                 {
                     MessageBox.Show(NO_PORT_SET);
                 }

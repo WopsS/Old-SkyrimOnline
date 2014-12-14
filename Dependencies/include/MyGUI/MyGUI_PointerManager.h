@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		11/2007
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #ifndef __MYGUI_POINTER_MANAGER_H__
 #define __MYGUI_POINTER_MANAGER_H__
 
@@ -73,8 +58,7 @@ namespace MyGUI
 			signature : void method(const std::string& _pointerName)\n
 			@param _pointerName Name of current mouse pointer
 		*/
-		delegates::CMultiDelegate1<const std::string&>
-			eventChangeMousePointer;
+		delegates::CMultiDelegate1<const std::string&> eventChangeMousePointer;
 
 	private:
 		void _unlinkWidget(Widget* _widget);
@@ -101,6 +85,7 @@ namespace MyGUI
 
 		std::string mDefaultName;
 		IntPoint mPoint;
+		IntPoint mOldPoint;
 		bool mVisible;
 		std::string mLayerName;
 		std::string mSkinName;
@@ -111,6 +96,9 @@ namespace MyGUI
 		std::string mCurrentMousePointer;
 
 		bool mIsInitialise;
+		std::string mXmlPointerTagName;
+		std::string mXmlPropertyTagName;
+		std::string mXmlDefaultPointerValue;
 	};
 
 } // namespace MyGUI

@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		12/2010
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #ifndef __MYGUI_SCROLL_BAR_H__
 #define __MYGUI_SCROLL_BAR_H__
 
@@ -30,6 +15,9 @@ namespace MyGUI
 
 	typedef delegates::CMultiDelegate2<ScrollBar*, size_t> EventHandle_ScrollBarPtrSizeT;
 
+	/** \brief @wpage{ScrollBar}
+		ScrollBar widget description should be here.
+	*/
 	class MYGUI_EXPORT ScrollBar :
 		public Widget,
 		public MemberObsolete<ScrollBar>
@@ -67,6 +55,13 @@ namespace MyGUI
 		void setScrollViewPage(size_t _value);
 		/** Get scroll view page */
 		size_t getScrollViewPage() const;
+
+		/** Set scroll view page
+			@param _value Tracker step when mouse wheel scrolled
+		*/
+		void setScrollWheelPage(size_t _value);
+		/** Get scroll view page */
+		size_t getScrollWheelPage() const;
 
 		/** Get size in pixels of area where scroll moves */
 		int getLineSize() const;
@@ -111,8 +106,7 @@ namespace MyGUI
 			@param _sender widget that called this event
 			@param _position - new tracker position
 		*/
-		EventHandle_ScrollBarPtrSizeT
-			eventScrollChangePosition;
+		EventHandle_ScrollBarPtrSizeT eventScrollChangePosition;
 
 	protected:
 		virtual void initialiseOverride();
@@ -150,8 +144,9 @@ namespace MyGUI
 
 		size_t mScrollRange;
 		size_t mScrollPosition;
-		size_t mScrollPage; // на сколько перещелкивать, при щелчке на кнопке
-		size_t mScrollViewPage; // на сколько перещелкивать, при щелчке по полосе
+		size_t mScrollPage; // track step, when clicking buttons
+		size_t mScrollViewPage; // track step, when clicking scroll line
+		size_t mScrollWheelPage; // track step, when scrolling with mouse wheel
 
 		int mMinTrackSize;
 		bool mMoveToClick;

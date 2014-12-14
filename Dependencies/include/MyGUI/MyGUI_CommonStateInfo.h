@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		06/2009
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #ifndef __MYGUI_COMMON_STATE_INFO_H__
 #define __MYGUI_COMMON_STATE_INFO_H__
 
@@ -49,7 +34,7 @@ namespace MyGUI
 		{
 			std::string texture = _node->getParent()->getParent()->findAttribute("texture");
 
-			// поддержка замены тегов в скинах
+			// tags replacement support for Skins
 			if (_version >= Version(1, 1))
 			{
 				texture = LanguageManager::getInstance().replaceTags(texture);
@@ -103,7 +88,7 @@ namespace MyGUI
 		{
 			std::string texture = _node->getParent()->getParent()->findAttribute("texture");
 
-			// поддержка замены тегов в скинах
+			// tags replacement support for Skins
 			if (_version >= Version(1, 1))
 			{
 				texture = LanguageManager::getInstance().replaceTags(texture);
@@ -130,6 +115,67 @@ namespace MyGUI
 		bool mTileH;
 		bool mTileV;
 	};
+
+	class MYGUI_EXPORT RotatingSkinStateInfo :
+		public IStateInfo
+	{
+		MYGUI_RTTI_DERIVED( RotatingSkinStateInfo )
+
+	public:
+		RotatingSkinStateInfo() :
+			mAngle(0),
+			mCenter(0,0)
+		{
+		}
+
+		virtual ~RotatingSkinStateInfo() { }
+
+		float getAngle() const
+		{
+			return mAngle;
+		}
+
+		const IntPoint& getCenter() const
+		{
+			return mCenter;
+		}
+
+		const FloatRect& getRect() const
+		{
+			return mRect;
+		}
+
+	private:
+		virtual void deserialization(xml::ElementPtr _node, Version _version)
+		{
+			xml::ElementEnumerator prop = _node->getElementEnumerator();
+			while (prop.next("Property"))
+			{
+				const std::string& key = prop->findAttribute("key");
+				const std::string& value = prop->findAttribute("value");
+				if (key == "Angle") mAngle = utility::parseFloat(value);
+				if (key == "Center") mCenter = IntPoint::parse(value);
+			}
+
+			std::string texture = _node->getParent()->getParent()->findAttribute("texture");
+
+			// tags replacement support for Skins
+			if (_version >= Version(1, 1))
+			{
+				texture = LanguageManager::getInstance().replaceTags(texture);
+			}
+
+			const IntSize& size = texture_utility::getTextureSize(texture);
+			const IntCoord& coord = IntCoord::parse(_node->findAttribute("offset"));
+			mRect = CoordConverter::convertTextureCoord(coord, size);
+		}
+
+	private:
+		FloatRect mRect;
+		IntPoint mCenter;
+		float mAngle; // Angle in radians
+	};
+
 
 	class MYGUI_EXPORT EditTextStateInfo :
 		public IStateInfo

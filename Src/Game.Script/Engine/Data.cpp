@@ -45,11 +45,7 @@ struct UnmanagedInputListener : public InputListener
 
 #pragma unmanaged
 
-extern "C" __declspec(dllexport) void SetVariables(IDirect3DDevice9* pDevice, 
-												   IDirect3D9* pDirect, 
-												   IInputHook* pInput, 	
-												   Signal<void(IDirect3DDevice9*)>* OnPresent,
-												   Signal<void(IDirect3DDevice9*)>* OnReset)
+extern "C" __declspec(dllexport) void SetVariables(IDirect3DDevice9* pDevice, IDirect3D9* pDirect, IInputHook* pInput, Signal<void(IDirect3DDevice9*)>* OnPresent, Signal<void(IDirect3DDevice9*)>* OnReset)
 {
 	TheIDirect3DDevice9 = pDevice;
 	TheIDirect3D9 = pDirect;

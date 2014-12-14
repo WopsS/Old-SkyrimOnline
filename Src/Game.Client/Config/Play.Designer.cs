@@ -126,16 +126,15 @@
             this.playerNameBox.Name = "playerNameBox";
             this.playerNameBox.Size = new System.Drawing.Size(147, 20);
             this.playerNameBox.TabIndex = 4;
-            this.playerNameBox.Text = "Your nickname";
             // 
             // playerNameLabel
             // 
             this.playerNameLabel.AutoSize = true;
             this.playerNameLabel.Location = new System.Drawing.Point(360, 40);
             this.playerNameLabel.Name = "playerNameLabel";
-            this.playerNameLabel.Size = new System.Drawing.Size(100, 13);
+            this.playerNameLabel.Size = new System.Drawing.Size(73, 13);
             this.playerNameLabel.TabIndex = 5;
-            this.playerNameLabel.Text = "Input Player Name :";
+            this.playerNameLabel.Text = "Player Name :";
             // 
             // selectedServerKey
             // 
@@ -243,6 +242,7 @@
             this.Name = "Play";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Skyrim Online - Configuration";
+            this.Load += new System.EventHandler(this.Play_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
