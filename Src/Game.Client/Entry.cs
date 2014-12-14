@@ -46,6 +46,7 @@ namespace Game.Client
         private static void Initialize()
         {
             File.AppendAllText("GameClient.txt", "Initialized\r\n");
+
             Application.EnableVisualStyles();
             Application.Run(new Play());
 
@@ -72,6 +73,7 @@ namespace Game.Client
         private static void Update()
         {
             File.AppendAllText("GameClient.txt", "Updated\r\n");
+
             if (Enabled)
             {
                 if (UserInterace == null)

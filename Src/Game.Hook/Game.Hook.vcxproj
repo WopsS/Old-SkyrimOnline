@@ -23,15 +23,15 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>NotSet</CharacterSet>
     <PlatformToolset>v120</PlatformToolset>
-    <CLRSupport>false</CLRSupport>
+    <CLRSupport />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>NotSet</CharacterSet>
-    <PlatformToolset>v120_CTP_Nov2012</PlatformToolset>
-    <CLRSupport>false</CLRSupport>
+    <PlatformToolset>v120</PlatformToolset>
+    <CLRSupport />
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -45,13 +45,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(IncludePath);./Src</IncludePath>
+    <IncludePath>$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)Bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\Obj\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(IncludePath);./Src</IncludePath>
+    <IncludePath>$(IncludePath);./</IncludePath>
     <OutDir>$(SolutionDir)Bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Obj\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)</TargetName>
@@ -67,21 +67,21 @@
       <AdditionalIncludeDirectories>$(DXSDK_DIR)\Include;$(SolutionDir)\Dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/Zm250 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalUsingDirectories>$(SolutionDir)Bin\$(Configuration)</AdditionalUsingDirectories>
-      <DebugInformationFormat>None</DebugInformationFormat>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(DXSDK_DIR)\Lib\x86;$(SolutionDir)\Dependencies\lib;$(SolutionDir)Bin\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d9.lib;D3dx9.lib;MyGUI.DirectXPlatform.lib;MyGUIEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile>Src/proxydll.def</ModuleDefinitionFile>
+      <AdditionalDependencies>d3d9.lib;D3dx9.lib;MyGUI.DirectXPlatform.lib;MyGUIEngine.lib;detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ModuleDefinitionFile>proxydll.def</ModuleDefinitionFile>
       <ImportLibrary>
       </ImportLibrary>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <ProgramDatabaseFile />
+      <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -109,7 +109,7 @@
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(DXSDK_DIR)\Lib\x86;$(SolutionDir)\Dependencies\lib;$(SolutionDir)Bin\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>d3d9.lib;D3dx9.lib;MyGUI.DirectXPlatform.lib;MyGUIEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile>Src/proxydll.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>proxydll.def</ModuleDefinitionFile>
       <ImportLibrary>..\..\Bin\$(Configuration)\$(TargetName).lib</ImportLibrary>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
@@ -117,64 +117,64 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Src\common\enums.h" />
-    <ClInclude Include="Src\Dinput\Input.hpp" />
-    <ClInclude Include="Src\Directx\myIDirect3D9.h" />
-    <ClInclude Include="Src\Directx\myIDirect3DDevice9.h" />
-    <ClInclude Include="Src\Games\Common.hpp" />
-    <ClInclude Include="Src\Hook\Function.hpp" />
-    <ClInclude Include="Src\Games\Oblivion.hpp" />
-    <ClInclude Include="Src\Plugins.hpp" />
-    <ClInclude Include="Src\proxydll.h" />
-    <ClInclude Include="Src\Games\Skyrim.hpp" />
-    <ClInclude Include="Src\stdafx.h" />
-    <ClInclude Include="Src\WinAPI.hpp" />
+    <ClInclude Include="common\enums.h" />
+    <ClInclude Include="Dinput\Input.hpp" />
+    <ClInclude Include="Directx\myIDirect3D9.h" />
+    <ClInclude Include="Directx\myIDirect3DDevice9.h" />
+    <ClInclude Include="Games\Common.hpp" />
+    <ClInclude Include="Hook\Function.hpp" />
+    <ClInclude Include="Games\Oblivion.hpp" />
+    <ClInclude Include="Plugins.hpp" />
+    <ClInclude Include="proxydll.h" />
+    <ClInclude Include="Games\Skyrim.hpp" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="WinAPI.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Src\Dinput\Input.cpp">
+    <ClCompile Include="Dinput\Input.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
     </ClCompile>
-    <ClCompile Include="Src\Directx\myIDirect3D9.cpp">
+    <ClCompile Include="Directx\myIDirect3D9.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
     </ClCompile>
-    <ClCompile Include="Src\Directx\myIDirect3DDevice9.cpp">
+    <ClCompile Include="Directx\myIDirect3DDevice9.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
     </ClCompile>
-    <ClCompile Include="Src\Games\Common.cpp" />
-    <ClCompile Include="Src\Games\Oblivion.cpp">
+    <ClCompile Include="Games\Common.cpp" />
+    <ClCompile Include="Games\Oblivion.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
     </ClCompile>
-    <ClCompile Include="Src\Plugins.cpp">
+    <ClCompile Include="Plugins.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
     </ClCompile>
-    <ClCompile Include="Src\proxydll.cpp">
+    <ClCompile Include="proxydll.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
     </ClCompile>
-    <ClCompile Include="Src\Games\Skyrim.cpp">
+    <ClCompile Include="Games\Skyrim.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
     </ClCompile>
-    <ClCompile Include="Src\stdafx.cpp">
+    <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
     </ClCompile>
-    <ClCompile Include="Src\WinAPI.cpp">
+    <ClCompile Include="WinAPI.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Src\proxydll.def" />
+    <None Include="proxydll.def" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
