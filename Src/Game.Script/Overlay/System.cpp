@@ -45,7 +45,6 @@ namespace Skyrim
 		//--------------------------------------------------------------------------------
 		void System::Setup()
 		{
-
 			MyGUI::xml::Document doc;
 
 			if (!doc.open(std::string("resources.xml")))

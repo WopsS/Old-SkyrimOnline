@@ -69,6 +69,12 @@ namespace Game.Client.IO
                 Entry.UserInterace.Chat.Log("Released key : " + ev.Key.ToString());
             }*/
 
+            if (ev.Key == 0x24)
+            {
+                Entry.UserInterace.Chat.Log("Pressed key : " + ev.Key.ToString());
+                return;
+            }
+
             if (ev.Key == 0x9D && ev.Pressed)
             {
                 UIEnabled = !UIEnabled;
