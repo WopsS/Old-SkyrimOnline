@@ -5,9 +5,6 @@ This is an old project of SkyrimOnline with some modifications on it.
 
 The project is [here](https://github.com/yamashi/SkyrimOnline).
 
-#### Note
-1. This branch was compiled with Visual Studio 2013.
-
 Readme as provided by Maxime Griot
 =================================
 > # Skyrim Online
