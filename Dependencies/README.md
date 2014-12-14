@@ -1,1 +1,0 @@
-All copyrights of all dependencies go to their author.
